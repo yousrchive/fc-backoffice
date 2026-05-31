@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { AuthProvider } from './contexts/AuthContext'
+import { useAuth } from './contexts/AuthContext'
+import Login from './pages/Login'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+function AppContent() {
+  const { user, loading } = useAuth()
+
+  if (loading) return (
+    <div style={{ width: '100vw', height: '100vh', background: 'var(--bg-base)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <p style={{ color: 'var(--text-hint)', fontSize: 'var(--text-md)' }}>불러오는 중...</p>
     </div>
-  );
+  )
+
+  if (!user) return <Login />
+
+  return (
+    <div>
+      <p style={{ color: 'var(--text-primary)' }}>로그인 됐어요! {user.email}</p>
+    </div>
+  )
 }
 
-export default App;
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  )
+}
