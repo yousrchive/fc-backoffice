@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext'
-import Login from '../pages/Login'
+import { Navigate } from 'react-router-dom'
 
 export default function withAuth(Component) {
   return function ProtectedRoute(props) {
@@ -7,11 +7,11 @@ export default function withAuth(Component) {
 
     if (loading) return (
       <div style={{ width: '100vw', height: '100vh', background: 'var(--bg-base)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ color: 'var(--text-hint)', fontSize: 'var(--text-md)' }}>불러오는 중...</p>
+        <p style={{ color: 'var(--text-hint)' }}>불러오는 중...</p>
       </div>
     )
 
-    if (!user) return <Login />
+    if (!user) return <Navigate to="/login" replace />
 
     return <Component {...props} />
   }

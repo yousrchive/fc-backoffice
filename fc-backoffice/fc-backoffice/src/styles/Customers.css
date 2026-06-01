@@ -1,0 +1,126 @@
+.customers-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xl);
+  max-width: 720px;
+}
+
+.customers-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.page-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-extrabold);
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.page-sub {
+  font-size: var(--text-sm);
+  color: var(--text-hint);
+  margin-top: var(--gap-xs);
+}
+
+.add-btn {
+  background: var(--primary);
+  color: #003535;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background: #00B8B5;
+}
+
+.add-form {
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-md);
+  padding: var(--gap-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}
+
+.form-input {
+  background: var(--bg-base);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  color: var(--text-primary);
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+  outline: none;
+  width: 100%;
+}
+
+.form-input:focus {
+  border-color: var(--primary);
+}
+
+.form-input::placeholder {
+  color: var(--text-hint);
+  font-weight: var(--weight-regular);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--gap-sm);
+}
+
+.form-btn-cancel {
+  background: transparent;
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-hint);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.form-btn-cancel:hover {
+  color: var(--text-secondary);
+  border-color: var(--text-hint);
+}
+
+.form-btn-submit {
+  background: var(--primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #003535;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.form-btn-submit:hover {
+  background: #00B8B5;
+}
+
+.customers-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+}
+
+.empty-text {
+  color: var(--text-hint);
+  font-size: var(--text-md);
+  text-align: center;
+  padding: var(--gap-xl) 0;
+}
+
+.page-loading {
+  color: var(--text-hint);
+  font-size: var(--text-md);
+}

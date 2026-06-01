@@ -1,0 +1,126 @@
+.layout {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg-base);
+}
+
+.sidebar {
+  width: 200px;
+  min-width: 200px;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--bg-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px 16px;
+}
+
+.sidebar-top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xl);
+}
+
+.sidebar-logo {
+  color: var(--primary);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-black);
+  letter-spacing: -0.5px;
+  padding: 0 8px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+}
+
+.nav-item {
+  background: transparent;
+  border: none;
+  color: var(--text-hint);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+.nav-item.active {
+  background: var(--primary-surface);
+  color: var(--primary);
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}
+
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+.profile-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary-surface);
+  color: var(--primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.profile-team {
+  font-size: var(--text-xs);
+  color: var(--text-hint);
+  margin-top: 2px;
+}
+
+.signout-btn {
+  background: transparent;
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-hint);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.signout-btn:hover {
+  color: var(--status-danger);
+  border-color: var(--status-danger);
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--gap-xl);
+}
+
+.logo-img {
+  width: 120px;
+  height: 40px;
+  object-fit: contain;
+}
