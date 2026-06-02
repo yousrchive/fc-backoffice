@@ -7,11 +7,13 @@ import Calendar from './pages/Calendar'
 import Templates from './pages/Templates'
 import Dashboard from './pages/Dashboard'
 import withAuth from './hoc/withAuth'
+import CustomerDetail from './pages/CustomerDetail'
 
 const ProtectedCustomers = withAuth(Customers)
 const ProtectedCalendar = withAuth(Calendar)
 const ProtectedTemplates = withAuth(Templates)
 const ProtectedDashboard = withAuth(Dashboard)
+const ProtectedCustomerDetail = withAuth(CustomerDetail)
 
 function AppContent() {
   const { user, loading } = useAuth()
@@ -30,6 +32,7 @@ function AppContent() {
       <Route path="/calendar" element={<Layout><ProtectedCalendar /></Layout>} />
       <Route path="/templates" element={<Layout><ProtectedTemplates /></Layout>} />
       <Route path="/dashboard" element={<Layout><ProtectedDashboard /></Layout>} />
+      <Route path="/customers/:id" element={<Layout><ProtectedCustomerDetail /></Layout>} />
     </Routes>
   )
 }

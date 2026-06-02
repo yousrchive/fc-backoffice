@@ -1,0 +1,129 @@
+.slider-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-lg);
+}
+
+.slider-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+}
+
+.slider-header {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+.slider-title {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--text-hint);
+}
+
+.slider-count {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--text-secondary);
+}
+
+.goal-chip {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--green-surface);
+  color: var(--green);
+}
+
+.slider-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-md);
+  padding: var(--gap-md) var(--gap-lg);
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+}
+
+.slider-wrap {
+  overflow-x: auto;
+  width: 100%;
+  scrollbar-width: none;
+}
+
+.slider-wrap::-webkit-scrollbar {
+  display: none;
+}
+
+.slider-track {
+  display: flex;
+  gap: var(--gap-md);
+  width: max-content;
+}
+
+.slider-empty-box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider-empty {
+  font-size: var(--text-xs);
+  color: var(--text-hint);
+  text-align: center;
+}
+
+.slider-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-xs);
+  cursor: pointer;
+  width: 52px;
+}
+
+.slider-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.avatar-active {
+  background: var(--bg-elevated);
+  border: 2px solid var(--primary);
+}
+
+.avatar-fresh {
+  background: var(--green-surface);
+  border: 2px solid var(--green);
+}
+
+.avatar-dim {
+  background: var(--bg-base);
+  border: 2px solid var(--bg-border);
+}
+
+.slider-name {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.name-active {
+  color: var(--text-secondary);
+}
+
+.name-dim {
+  color: var(--text-hint);
+}

@@ -1,15 +1,21 @@
 import { supabase } from '../lib/supabase'
+import { conversationService } from './conversationService'
 
 export const customerService = {
+
   async getAll(userId) {
-    const { data, error } = await supabase
-      .from('customers')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-    if (error) throw error
-    return data
-  },
+  const { data, error } = await supabase
+    .from('customers')
+    .select(`
+      *,
+      conversations(talked_at),
+      consultations(current_stage)
+    `)
+    .eq('user_id', userId)
+    .order('updated_at', { ascending: false })
+  if (error) throw error
+  return data
+},
 
   async create(customer) {
     const { data, error } = await supabase
@@ -18,6 +24,9 @@ export const customerService = {
       .select()
       .single()
     if (error) throw error
+
+    await conversationService.upsertToday(data.id, customer.user_id)
+
     return data
   },
 
