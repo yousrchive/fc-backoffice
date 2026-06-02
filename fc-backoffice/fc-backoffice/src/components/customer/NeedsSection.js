@@ -2,12 +2,16 @@ import { useState, useEffect } from 'react'
 import { useNeeds } from '../../hooks/useNeeds'
 import '../../styles/NeedsSection.css'
 
-export default function NeedsSection({ consultationId, customerId, userId }) {
+export default function NeedsSection({ consultationId, customerId, userId, onDataChange }) {
   const { needs, needTypes, loading, updateNeeds } = useNeeds(consultationId, customerId, userId)
   const [selectedType, setSelectedType] = useState(null)
   const [specificNeeds, setSpecificNeeds] = useState('')
   const [memo, setMemo] = useState('')
   const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    if (onDataChange) onDataChange(needs)
+  }, [needs, onDataChange])
 
   useEffect(() => {
     if (needs) {
