@@ -1,6 +1,17 @@
 import { supabase } from '../lib/supabase'
 
 export const consultationService = {
+
+  async getStages() {
+  const { data, error } = await supabase
+    .from('consultation_stages')
+    .select('*')
+    .eq('is_active', true)
+    .order('sort_order')
+  if (error) throw error
+  return data ?? []
+}, // 영업 단계 목록 조회 (가변성 높은 부분)
+
   async getByCustomer(customerId) {
     const { data, error } = await supabase
       .from('consultations')

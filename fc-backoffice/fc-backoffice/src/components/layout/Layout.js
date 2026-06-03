@@ -1,9 +1,19 @@
 import { useAuth } from '../../contexts/AuthContext'
 import { authService } from '../../services/authService'
+import { useNavigate, useLocation } from 'react-router-dom'
 import '../../styles/Layout.css'
+
+const NAV_ITEMS = [
+  { label: '고객', path: '/customers' },
+  { label: '캘린더', path: '/calendar' },
+  { label: '발화모음', path: '/templates' },
+  { label: '대시보드', path: '/dashboard' },
+]
 
 export default function Layout({ children }) {
   const { profile } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const handleSignOut = async () => {
     await authService.signOut()
@@ -19,10 +29,15 @@ export default function Layout({ children }) {
             <img src="/logo.png" alt="FC Backoffice Logo" className="logo-img" />
           </div>
           <nav className="sidebar-nav">
-            <button className="nav-item active">고객</button>
-            <button className="nav-item">캘린더</button>
-            <button className="nav-item">발화모음</button>
-            <button className="nav-item">대시보드</button>
+            {NAV_ITEMS.map(item => (
+              <button
+                key={item.path}
+                className={`nav-item ${location.pathname.startsWith(item.path) ? 'active' : ''}`}
+                onClick={() => navigate(item.path)}
+              >
+                {item.label}
+              </button>
+            ))}
           </nav>
         </div>
         <div className="sidebar-bottom">
