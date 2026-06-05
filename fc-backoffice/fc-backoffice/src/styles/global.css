@@ -55,14 +55,14 @@
   --weight-black: 900;
 
   /* 간격 */
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --gap-xs: 4px;
-  --gap-sm: 8px;
-  --gap-md: 12px;
-  --gap-lg: 16px;
-  --gap-xl: 24px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --gap-xs: 6px;
+  --gap-sm: 12px;
+  --gap-md: 16px;
+  --gap-lg: 24px;
+  --gap-xl: 36px;
 }
 
 * {
@@ -81,4 +81,26 @@ body {
 input, textarea, button {
   font-family: var(--font);
   font-size: var(--text-md);
+}
+
+.chip {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--bg-border);
+  background: var(--bg-elevated);
+  color: var(--text-hint);
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--text-hint);
+  color: var(--text-secondary);
+}
+
+.chip-active {
+  background: var(--bg-elevated);
+  border-color: var(--text-primary);
+  color: var(--text-primary);
 }

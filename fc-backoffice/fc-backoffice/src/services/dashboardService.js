@@ -87,9 +87,12 @@ export const dashboardService = {
     const counts = {}
     stageLabels.forEach(s => counts[s] = 0)
     data?.forEach(d => {
-      if (counts[d.current_stage] !== undefined) counts[d.current_stage]++
+      const idx = stageLabels.indexOf(d.current_stage)
+      if (idx === -1) return
+      // 그 단계까지 거친 모든 단계에 누적 카운트
+      for (let i = 0; i <= idx; i++) counts[stageLabels[i]]++
     })
-    const total = Object.values(counts).reduce((a, b) => a + b, 0)
+    const total = counts[stageLabels[0]] ?? 0
     return { counts, total }
   },
 
@@ -107,19 +110,21 @@ export const dashboardService = {
     const counts = {}
     stageLabels.forEach(s => counts[s] = 0)
     data?.forEach(d => {
-      if (counts[d.current_stage] !== undefined) counts[d.current_stage]++
+      const idx = stageLabels.indexOf(d.current_stage)
+      if (idx === -1) return
+      for (let i = 0; i <= idx; i++) counts[stageLabels[i]]++
     })
 
-    const total = Object.values(counts).reduce((a, b) => a + b, 0)
+    const total = counts[stageLabels[0]] ?? 0
 
     const conversionRates = {}
     for (let i = 0; i < stageLabels.length - 1; i++) {
       const from = stageLabels[i]
       const to = stageLabels[i + 1]
-      const fromTotal = stageLabels.slice(i).reduce((acc, s) => acc + (counts[s] ?? 0), 0)
-      const toTotal = stageLabels.slice(i + 1).reduce((acc, s) => acc + (counts[s] ?? 0), 0)
-      conversionRates[`${from}→${to}`] = fromTotal > 0
-        ? Math.round((toTotal / fromTotal) * 100)
+      const fromCount = counts[from] ?? 0
+      const toCount = counts[to] ?? 0
+      conversionRates[`${from}→${to}`] = fromCount > 0
+        ? Math.round((toCount / fromCount) * 100)
         : 0
     }
 

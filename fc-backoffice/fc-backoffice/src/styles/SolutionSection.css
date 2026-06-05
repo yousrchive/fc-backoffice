@@ -1,7 +1,7 @@
 .solution-wrap {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-xl);
+  gap: 28px;
 }
 
 .solution-field {
@@ -23,7 +23,7 @@
 }
 
 .solution-input:focus {
-  border-color: var(--primary);
+  border-color: var(--text-secondary);
 }
 
 .solution-input::placeholder {
@@ -47,7 +47,7 @@
 }
 
 .solution-textarea:focus {
-  border-color: var(--primary);
+  border-color: var(--text-secondary);
 }
 
 .solution-textarea::placeholder {
@@ -61,47 +61,90 @@
   gap: var(--gap-lg);
 }
 
-.coverage-table {
-  width: 100%;
-  border-collapse: collapse;
+/* ── 보장항목 칩 ── */
+
+.coverage-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-sm);
+  min-height: 0;
+}
+
+.coverage-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-base);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
   font-size: var(--text-sm);
 }
 
-.coverage-table th {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--text-hint);
-  padding: 6px 8px;
-  border-bottom: 1px solid var(--bg-border);
-  text-align: left;
-}
-
-.coverage-table td {
-  padding: 8px 8px;
-  border-bottom: 1px solid var(--bg-border);
+.coverage-chip-name {
   color: var(--text-primary);
+  font-weight: var(--weight-semibold);
 }
 
-.coverage-amt {
+.coverage-chip-amount {
   color: var(--primary);
   font-weight: var(--weight-semibold);
+  font-size: var(--text-xs);
 }
 
-.coverage-del {
+.coverage-chip-del {
   background: transparent;
   border: none;
   color: var(--text-hint);
   cursor: pointer;
-  font-size: var(--text-xs);
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
 }
 
-.coverage-del:hover {
+.coverage-chip-del:hover {
   color: var(--status-danger);
 }
 
-.coverage-add-row {
+.coverage-add-area {
   display: flex;
   gap: var(--gap-sm);
+  align-items: flex-start;
+}
+
+.coverage-input-wrap {
+  position: relative;
+  flex: 1;
+}
+
+.coverage-amount-input {
+  width: 160px;
+  flex-shrink: 0;
+}
+
+.coverage-suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--bg-elevated);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-sm);
+  z-index: 10;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.coverage-suggestion-item {
+  padding: 8px 12px;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.coverage-suggestion-item:hover {
+  background: var(--bg-base);
+  color: var(--text-primary);
 }
 
 .coverage-add-btn {
@@ -111,7 +154,7 @@
   color: var(--text-secondary);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  padding: 8px 14px;
+  padding: 9px 14px;
   cursor: pointer;
   white-space: nowrap;
 }
@@ -120,6 +163,8 @@
   border-color: var(--primary);
   color: var(--primary);
 }
+
+/* ── 보험사별 결과 ── */
 
 .insurer-grid {
   display: grid;
@@ -169,7 +214,7 @@
 }
 
 .insurer-input:focus {
-  border-color: var(--primary);
+  border-color: var(--text-secondary);
 }
 
 .status-pills {
@@ -193,6 +238,8 @@
 .status-거절 { background: var(--bg-elevated); color: var(--text-hint); }
 .status-거절.status-on { background: var(--status-danger-bg); color: var(--status-danger); }
 
+/* ── 최종 결정안 / 조정 결과 ── */
+
 .combo-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -207,6 +254,10 @@
   gap: var(--gap-sm);
 }
 
+.combo-card-single {
+  max-width: 420px;
+}
+
 .combo-rank1 {
   background: var(--primary-surface);
   border: 1px solid var(--primary);
@@ -217,15 +268,145 @@
   border: 1px solid var(--bg-border);
 }
 
+.combo-adj {
+  background: var(--blue-surface);
+  border: 1px solid var(--blue-border);
+}
+
 .combo-rank-label {
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   color: var(--text-hint);
 }
 
-.combo-rank1 .combo-rank-label {
+.combo-rank1 .combo-rank-label { color: var(--primary); }
+.combo-adj .combo-rank-label { color: var(--blue); }
+
+/* 보험사 선택 */
+
+.combo-insurer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.combo-insurer-entry {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+.combo-insurer-chip {
+  flex-shrink: 0;
+  background: var(--bg-elevated);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  padding: 3px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.combo-insurer-chip:hover {
+  border-color: var(--status-danger);
+  color: var(--status-danger);
+}
+
+.combo-rank1 .combo-insurer-chip {
+  background: rgba(0, 210, 119, 0.08);
+  border-color: var(--primary-border);
   color: var(--primary);
 }
+
+.combo-product-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--bg-border);
+  padding: 3px 0;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  outline: none;
+  flex: 1;
+  min-width: 0;
+}
+
+.combo-product-input::placeholder {
+  color: var(--text-hint);
+  font-weight: var(--weight-regular);
+}
+
+.combo-picker-wrap {
+  position: relative;
+}
+
+.combo-add-insurer-btn {
+  background: transparent;
+  border: 1px dashed var(--bg-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-hint);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  padding: 4px 10px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.combo-add-insurer-btn:hover {
+  border-color: var(--text-hint);
+  color: var(--text-secondary);
+}
+
+.insurer-picker {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: var(--bg-elevated);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-md);
+  padding: var(--gap-sm);
+  z-index: 20;
+  min-width: 180px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.insurer-picker-label {
+  font-size: var(--text-xs);
+  color: var(--text-hint);
+  font-weight: var(--weight-semibold);
+  padding: 2px 4px;
+}
+
+.insurer-picker-item {
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  padding: 5px 8px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.insurer-picker-item:hover {
+  background: var(--bg-base);
+  color: var(--text-primary);
+}
+
+.insurer-picker-selected {
+  color: var(--primary);
+  font-weight: var(--weight-semibold);
+}
+
+/* 보험료 입력 */
 
 .combo-input {
   background: transparent;
@@ -242,4 +423,111 @@
 .combo-input::placeholder {
   color: var(--text-hint);
   font-weight: var(--weight-regular);
+}
+
+/* PDF */
+
+.combo-pdfs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.combo-pdf-item {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+.combo-pdf-link {
+  font-size: var(--text-xs);
+  color: var(--blue);
+  text-decoration: none;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.combo-pdf-link:hover {
+  text-decoration: underline;
+}
+
+.combo-pdf-del {
+  background: transparent;
+  border: none;
+  color: var(--text-hint);
+  cursor: pointer;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.combo-pdf-del:hover {
+  color: var(--status-danger);
+}
+
+.combo-pdf-add-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-hint);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.combo-pdf-add-btn:hover {
+  color: var(--text-secondary);
+}
+
+.combo-pdf-add-btn:disabled {
+  color: var(--text-hint);
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* ── 고객 답장 ── */
+
+.reply-status-row {
+  display: flex;
+  gap: var(--gap-sm);
+}
+
+.reply-chip {
+  padding: 5px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--bg-border);
+  background: var(--bg-base);
+  color: var(--text-hint);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+}
+
+.reply-chip-긍정.reply-chip-on {
+  background: var(--green-surface);
+  border-color: var(--green-border);
+  color: var(--green);
+}
+
+.reply-chip-부정.reply-chip-on {
+  background: var(--status-danger-bg);
+  border-color: var(--status-danger);
+  color: var(--status-danger);
+}
+
+.reply-chip-무응답.reply-chip-on {
+  background: #2A2210;
+  border-color: #66501A;
+  color: #C9A040;
+}
+
+.reply-sub {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  padding-top: var(--gap-sm);
+  border-top: 1px solid var(--bg-border);
 }

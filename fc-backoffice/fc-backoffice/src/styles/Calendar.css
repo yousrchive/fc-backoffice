@@ -1,0 +1,225 @@
+.cal-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-lg);
+  padding-bottom: 60px;
+}
+
+/* 헤더 */
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-lg);
+}
+
+.cal-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-md);
+}
+
+.cal-title {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-extrabold);
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.cal-nav-btn {
+  background: var(--bg-elevated);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cal-nav-btn:hover {
+  border-color: var(--text-hint);
+  color: var(--text-primary);
+}
+
+.cal-today-btn {
+  background: transparent;
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-hint);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.cal-today-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* 그리드 */
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-left: 1px solid var(--bg-border);
+  border-top: 1px solid var(--bg-border);
+}
+
+/* 요일 헤더 */
+.cal-dow {
+  padding: 8px 10px;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--text-hint);
+  border-right: 1px solid var(--bg-border);
+  border-bottom: 1px solid var(--bg-border);
+  text-align: center;
+  background: var(--bg-surface);
+}
+
+.cal-dow-sun { color: #FF6B6B; }
+.cal-dow-sat { color: #0097FE; }
+
+/* 셀 */
+.cal-cell {
+  min-height: 130px;
+  padding: 8px;
+  border-right: 1px solid var(--bg-border);
+  border-bottom: 1px solid var(--bg-border);
+  background: var(--bg-base);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.cal-cell-empty {
+  background: var(--bg-surface);
+  opacity: 0.4;
+}
+
+.cal-cell-past {
+  opacity: 0.65;
+}
+
+.cal-cell-today {
+  background: var(--primary-surface);
+  border-right-color: var(--primary-border);
+  border-bottom-color: var(--primary-border);
+}
+
+/* 날짜 숫자 */
+.cal-date-num {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--text-secondary);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.cal-cell-today .cal-date-num {
+  color: var(--primary);
+}
+
+.cal-sun { color: #FF6B6B; }
+.cal-sat { color: #0097FE; }
+
+/* 항목들 */
+.cal-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden;
+}
+
+/* 고객 대화 항목 */
+.cal-customer-entry {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.cal-emoji {
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.cal-cust-name {
+  font-size: 11px;
+  color: var(--text-primary);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+/* 단계 칩 */
+.cal-stage-chip {
+  font-size: 9px;
+  font-weight: var(--weight-bold);
+  padding: 1px 5px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cal-stage-needs     { background: var(--blue-surface);   color: var(--blue);          }
+.cal-stage-problems  { background: #2A2210;               color: #C9A040;              }
+.cal-stage-solution  { background: var(--primary-surface); color: var(--primary);       }
+.cal-stage-subscription { background: var(--pink-surface); color: var(--pink);         }
+.cal-stage-crm       { background: var(--green-surface);  color: var(--green);         }
+
+/* 알림 항목 */
+.cal-alert-entry {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--status-warn-bg);
+  overflow: hidden;
+}
+
+.cal-alert-done {
+  background: var(--bg-elevated);
+  opacity: 0.5;
+}
+
+.cal-alert-bell {
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.cal-alert-text {
+  font-size: 10px;
+  color: var(--status-warn);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.cal-alert-done .cal-alert-text {
+  color: var(--text-hint);
+}
+
+.cal-alert-stage {
+  font-size: 9px;
+  color: var(--text-hint);
+  flex-shrink: 0;
+}
+
+.cal-loading {
+  font-size: var(--text-sm);
+  color: var(--text-hint);
+  text-align: center;
+  padding: var(--gap-lg);
+}

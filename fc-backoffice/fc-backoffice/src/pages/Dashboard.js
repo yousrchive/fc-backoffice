@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDashboard } from '../hooks/useDashboard'
+import { useAuth } from '../contexts/AuthContext'
+import { kptService } from '../services/kptService'
 import '../styles/Dashboard.css'
 
 export default function Dashboard() {
@@ -23,10 +25,47 @@ export default function Dashboard() {
   const [reviewForm, setReviewForm] = useState({})
   const [activeTab, setActiveTab] = useState('goal')
   const [isHoliday, setIsHoliday] = useState(false)
+  const [allKpts, setAllKpts] = useState([])
+  const { user } = useAuth()
+
+  useEffect(() => {
+    if (!user?.id) return
+    kptService.getAll(user.id).then(setAllKpts).catch(console.error)
+  }, [user?.id])
 
   useEffect(() => {
     if (scrum) setIsHoliday(scrum.is_holiday ?? false)
   }, [scrum])
+
+  const handleImportKpt = async () => {
+    if (!user?.id) return
+    try {
+      const items = await kptService.getToday(user.id)
+      if (items.length === 0) return
+
+      const fmt = (list) => list.map(k =>
+        `• [${k.customers?.emoji ?? ''}${k.customers?.name ?? ''}] ${k.content}`
+      ).join('\n')
+
+      const keeps = items.filter(k => k.type === 'K')
+      const problems = items.filter(k => k.type === 'P')
+      const tries = items.filter(k => k.type === 'T')
+
+      const next = { ...reviewForm }
+      if (keeps.length) next.keep_text = [reviewForm.keep_text, fmt(keeps)].filter(Boolean).join('\n\n')
+      if (problems.length) next.stop_text = [reviewForm.stop_text, fmt(problems)].filter(Boolean).join('\n\n')
+      if (tries.length) {
+        const tryText = fmt(tries)
+        next.try_volume = [reviewForm.try_volume, tryText].filter(Boolean).join('\n\n')
+        next.try_conversion = [reviewForm.try_conversion, tryText].filter(Boolean).join('\n\n')
+      }
+
+      setReviewForm(next)
+      await updateReview(next)
+    } catch (err) {
+      console.error('KPT import:', err)
+    }
+  }
 
   const handleScrumChange = (e) => {
     setScrumForm({ ...scrumForm, [e.target.name]: e.target.value })
@@ -75,6 +114,7 @@ export default function Dashboard() {
           { key: 'goal', label: '목표' },
           { key: 'result', label: '성과' },
           { key: 'funnel', label: '퍼널 현황' },
+          { key: 'kpt', label: 'KPT 회고' },
           { key: 'templates', label: '템플릿 반응' },
         ].map(tab => (
           <button
@@ -291,6 +331,13 @@ export default function Dashboard() {
                   />
                 </div>
               </div>
+              <div className="kpt-import-row">
+                <span className="kpt-import-label">오늘 KPT 기록에서 자동 채우기</span>
+                <button className="kpt-import-btn" onClick={handleImportKpt}>
+                  가져오기
+                </button>
+              </div>
+
               <div className="dash-field">
                 <label className="dash-label">Keep — 계속할 것</label>
                 <textarea
@@ -363,6 +410,10 @@ export default function Dashboard() {
           weeklyActivity={weeklyActivity}
           getFunnelByPeriod={getFunnelByPeriod}
         />
+      )}
+
+      {activeTab === 'kpt' && (
+        <KptTab kpts={allKpts} />
       )}
 
       {activeTab === 'templates' && (
@@ -618,6 +669,47 @@ function FunnelTab({ stages, funnelStats, weeklyActivity, getFunnelByPeriod }) {
             )
           })}
         </div>
+      </div>
+    </div>
+  )
+}
+
+const KPT_META = {
+  K: { label: 'Keep', color: '#00D1CE', bg: '#003520', border: '#006640' },
+  P: { label: 'Problem', color: '#FF6B6B', bg: '#3A1010', border: '#FF6B6B' },
+  T: { label: 'Try', color: '#0097FE', bg: '#002A48', border: '#004A80' },
+}
+
+function KptTab({ kpts }) {
+  const fmt = (dateStr) => new Date(dateStr).toLocaleDateString('ko-KR', {
+    month: 'long', day: 'numeric'
+  })
+
+  const grouped = { K: [], P: [], T: [] }
+  kpts.forEach(k => { if (grouped[k.type]) grouped[k.type].push(k) })
+
+  return (
+    <div className="dash-section-wrap">
+      <div className="kpt-dash-grid">
+        {Object.entries(KPT_META).map(([type, meta]) => (
+          <div key={type} className="dash-card">
+            <p className="dash-card-title" style={{ color: meta.color }}>{meta.label}</p>
+            {grouped[type].length === 0 ? (
+              <p className="dash-empty">기록 없음</p>
+            ) : (
+              <div className="kpt-dash-list">
+                {grouped[type].map(kpt => (
+                  <div key={kpt.id} className="kpt-dash-item" style={{ borderColor: meta.border }}>
+                    <p className="kpt-dash-content">{kpt.content}</p>
+                    <p className="kpt-dash-meta">
+                      {kpt.customers?.emoji} {kpt.customers?.name} · {fmt(kpt.created_at)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   )

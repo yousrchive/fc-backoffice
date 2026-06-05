@@ -5,15 +5,18 @@ export const needsService = {
   async getByConsultation(consultationId) {
     const { data, error } = await supabase
       .from('needs')
-      .select('*, need_types(*)')
-      .eq('conversation_id', consultationId)
+      .select('*')
+      .eq('consultation_id', consultationId)
       .maybeSingle()
-    if (error) throw error
+    if (error) {
+      console.error('[needsService] getByConsultation:', error)
+      throw error
+    }
     return data
   },
 
   async upsert(consultationId, updates, customerId, userId) {
-    await conversationService.upsertToday(customerId, userId)
+    try { await conversationService.upsertToday(customerId, userId) } catch (_) {}
 
     const existing = await this.getByConsultation(consultationId)
     if (existing) {
@@ -21,17 +24,23 @@ export const needsService = {
         .from('needs')
         .update(updates)
         .eq('id', existing.id)
-        .select('*, need_types(*)')
-        .single()
-      if (error) throw error
+        .select('*')
+        .maybeSingle()
+      if (error) {
+        console.error('[needsService] update:', error)
+        throw error
+      }
       return data
     } else {
       const { data, error } = await supabase
         .from('needs')
-        .insert({ ...updates, conversation_id: consultationId })
-        .select('*, need_types(*)')
-        .single()
-      if (error) throw error
+        .insert({ ...updates, consultation_id: consultationId })
+        .select('*')
+        .maybeSingle()
+      if (error) {
+        console.error('[needsService] insert:', error)
+        throw error
+      }
       return data
     }
   }

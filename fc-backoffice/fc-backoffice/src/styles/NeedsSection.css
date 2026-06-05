@@ -1,7 +1,7 @@
 .needs-wrap {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-lg);
+  gap: 28px;
 }
 
 .needs-field {
@@ -16,27 +16,6 @@
   gap: var(--gap-sm);
 }
 
-.chip {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid var(--bg-border);
-  background: var(--bg-base);
-  color: var(--text-secondary);
-  cursor: pointer;
-}
-
-.chip:hover {
-  border-color: var(--text-hint);
-  color: var(--text-primary);
-}
-
-.chip-active {
-  background: var(--primary-surface);
-  border-color: var(--primary);
-  color: var(--primary);
-}
 
 .hint-box {
   padding: 10px 14px;

@@ -17,10 +17,17 @@ export function useNeeds(consultationId, customerId, userId) {
   }, [])
 
   const fetchNeeds = useCallback(async () => {
+    if (!consultationId) {
+      setLoading(false)
+      return
+    }
     setLoading(true)
     try {
       const data = await needsService.getByConsultation(consultationId)
+      console.log('[useNeeds] fetch result:', data, '| consultationId:', consultationId)
       setNeeds(data)
+    } catch (err) {
+      console.error('[useNeeds] fetchNeeds error:', err)
     } finally {
       setLoading(false)
     }
@@ -28,12 +35,13 @@ export function useNeeds(consultationId, customerId, userId) {
 
   useEffect(() => {
     fetchNeedTypes()
-    if (consultationId) fetchNeeds()
-  }, [consultationId, fetchNeedTypes, fetchNeeds])
+    fetchNeeds()
+  }, [fetchNeedTypes, fetchNeeds])
 
   const updateNeeds = async (updates) => {
+    if (!consultationId) return null
     const data = await needsService.upsert(consultationId, updates, customerId, userId)
-    setNeeds(data)
+    if (data) setNeeds(data)
     return data
   }
 

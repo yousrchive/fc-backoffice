@@ -144,7 +144,7 @@ async getByStage(userId, stage) {
   async recordReaction(templateId, conversationId, stage, reacted) {
     const { data, error } = await supabase
       .from('template_reactions')
-      .insert({ template_id: templateId, conversation_id: conversationId, stage, reacted })
+      .insert({ template_id: templateId, consultation_id: conversationId, stage, reacted })
       .select()
       .single()
     if (error) throw error
