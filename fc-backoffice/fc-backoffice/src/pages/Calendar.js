@@ -3,7 +3,6 @@ import { useAuth } from '../contexts/AuthContext'
 import { calendarService } from '../services/calendarService'
 import '../styles/Calendar.css'
 
-const STAGE_ORDER = ['니즈환기', '문제인식', '솔루션', '청약', '후속관리']
 const STAGE_CLASS = {
   '니즈환기': 'cal-stage-needs',
   '문제인식': 'cal-stage-problems',

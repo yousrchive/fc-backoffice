@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useDashboard } from '../hooks/useDashboard'
 import { useAuth } from '../contexts/AuthContext'
 import { kptService } from '../services/kptService'
@@ -470,7 +470,7 @@ function FunnelTab({ stages, funnelStats, weeklyActivity, getFunnelByPeriod }) {
     }
   }
 
-  const loadStats = async () => {
+  const loadStats = useCallback(async () => {
     setComparing(true)
     try {
       let start, end, prevStart, prevEnd
@@ -503,11 +503,11 @@ function FunnelTab({ stages, funnelStats, weeklyActivity, getFunnelByPeriod }) {
     } finally {
       setComparing(false)
     }
-  }
+  }, [periodType, customStart, customEnd, getFunnelByPeriod])
 
   useEffect(() => {
     if (periodType !== 'custom' && stages.length > 0) loadStats()
-  }, [periodType, stages])
+  }, [periodType, stages, loadStats])
 
   const stageLabels = stages.map(s => s.label)
 

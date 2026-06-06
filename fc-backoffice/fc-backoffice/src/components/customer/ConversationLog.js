@@ -26,13 +26,6 @@ function formatDate(dateStr) {
   return `${date.getMonth() + 1}월 ${date.getDate()}일`
 }
 
-const STAGE_MAP = {
-  '니즈환기': 'stage-needs',
-  '문제인식': 'stage-problem',
-  '솔루션': 'stage-solution',
-  '청약': 'stage-contract',
-  '후속관리': 'stage-crm',
-}
 
 export default function ConversationLog({ conversations, customers, onSelect }) {
   const grouped = groupByDate(conversations, customers)
