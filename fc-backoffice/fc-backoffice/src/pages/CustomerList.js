@@ -13,13 +13,13 @@ const STAGE_CLASS = {
 }
 
 function getFurthestStage(consultations) {
-  if (!consultations?.length) return null
+  if (!consultations?.length) return '니즈환기'
   let maxIdx = -1
   consultations.forEach(c => {
     const idx = STAGE_ORDER.indexOf(c.current_stage)
     if (idx > maxIdx) maxIdx = idx
   })
-  return maxIdx >= 0 ? STAGE_ORDER[maxIdx] : null
+  return maxIdx >= 0 ? STAGE_ORDER[maxIdx] : '니즈환기'
 }
 
 function getLatestContact(conversations) {
@@ -62,8 +62,8 @@ export default function CustomerList() {
     }
     if (sort === 'stage') {
       return [...list].sort((a, b) => {
-        const ia = STAGE_ORDER.indexOf(getFurthestStage(a.consultations) ?? '')
-        const ib = STAGE_ORDER.indexOf(getFurthestStage(b.consultations) ?? '')
+        const ia = STAGE_ORDER.indexOf(getFurthestStage(a.consultations))
+        const ib = STAGE_ORDER.indexOf(getFurthestStage(b.consultations))
         return ib - ia
       })
     }
@@ -107,7 +107,6 @@ export default function CustomerList() {
         <div className="cl-list">
           {sorted.map(customer => {
             const stage = getFurthestStage(customer.consultations)
-            const stageClass = STAGE_CLASS[stage] ?? 'stage-none'
             const latestContact = getLatestContact(customer.conversations)
             return (
               <div
@@ -116,16 +115,16 @@ export default function CustomerList() {
                 onClick={() => navigate(`/customers/${customer.id}`)}
               >
                 <div className="cl-item-left">
-                  <div className="customer-emoji">{customer.emoji}</div>
+                  <div className="cl-emoji">{customer.emoji}</div>
                   <div className="cl-item-info">
-                    <p className="customer-name">{customer.name}</p>
-                    <p className="customer-meta">
+                    <p className="cl-name">{customer.name}</p>
+                    <p className="cl-meta">
                       {customer.room_code}{latestContact ? ` · ${latestContact}` : ''}
                     </p>
                   </div>
                 </div>
-                <span className={`stage-badge ${stageClass}`}>
-                  {stage ?? '미정'}
+                <span className={`cl-stage-chip ${STAGE_CLASS[stage]}`}>
+                  {stage}
                 </span>
               </div>
             )

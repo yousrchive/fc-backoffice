@@ -21,7 +21,7 @@
   background: var(--bg-surface);
   border: 1px solid var(--bg-border);
   border-radius: var(--radius-sm);
-  padding: 10px 14px;
+  padding: 9px 13px;
   color: var(--text-primary);
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
@@ -46,15 +46,15 @@
 .cl-list {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-xs);
+  gap: 6px;
 }
 
 .cl-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px;
-  border-radius: var(--radius-md);
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
   background: var(--bg-surface);
   border: 1px solid var(--bg-border);
   cursor: pointer;
@@ -68,13 +68,44 @@
 .cl-item-left {
   display: flex;
   align-items: center;
-  gap: var(--gap-md);
+  gap: 12px;
+}
+
+.cl-emoji {
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .cl-item-info {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
+}
+
+.cl-name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.cl-meta {
+  font-size: var(--text-xs);
+  color: var(--text-hint);
+}
+
+.cl-stage-chip {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
 }
 
 .cl-empty {
