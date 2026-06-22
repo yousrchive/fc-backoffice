@@ -507,6 +507,7 @@ function FunnelTab({ stages, funnelStats, weeklyActivity, getFunnelByPeriod }) {
 
   useEffect(() => {
     if (periodType !== 'custom' && stages.length > 0) loadStats()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [periodType, stages])
 
   const stageLabels = stages.map(s => s.label)

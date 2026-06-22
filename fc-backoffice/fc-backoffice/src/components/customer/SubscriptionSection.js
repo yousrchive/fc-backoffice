@@ -15,7 +15,7 @@ const CONTRACT_CHECKS = [
 ]
 
 export default function SubscriptionSection({ consultationId }) {
-  const [meta, setMeta] = useState(null)
+  const [, setMeta] = useState(null)
   const [customerChecks, setCustomerChecks] = useState({})
   const [contractChecks, setContractChecks] = useState({})
   const [finalProduct, setFinalProduct] = useState('')
