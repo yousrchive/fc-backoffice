@@ -4,17 +4,20 @@ function groupByDate(conversations, customers) {
   const map = {}
   conversations.forEach(conv => {
     const date = conv.talked_at?.slice(0, 10)
-    if (!map[date]) map[date] = []
+    if (!map[date]) map[date] = {}
     const customer = customers.find(c => c.id === conv.customer_id)
-    if (customer) {
-      map[date].push({ ...conv, customer })
+    if (!customer) return
+    const existing = map[date][conv.customer_id]
+    if (!existing || new Date(conv.updated_at) > new Date(existing.updated_at)) {
+      map[date][conv.customer_id] = { ...conv, customer }
     }
   })
-  // 날짜별 클러스터 내에서 updated_at 최신순 정렬
-  Object.keys(map).forEach(date => {
-    map[date].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-  })
-  return Object.entries(map).sort((a, b) => new Date(b[0]) - new Date(a[0]))
+  return Object.entries(map)
+    .map(([date, custMap]) => [
+      date,
+      Object.values(custMap).sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+    ])
+    .sort((a, b) => new Date(b[0]) - new Date(a[0]))
 }
 
 function formatDate(dateStr) {

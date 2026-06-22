@@ -12,7 +12,7 @@ export const conversationService = {
     return data
   },
 
-  async upsertToday(customerId, userId) {
+  async upsertToday(customerId, userId, updates = {}) {
     const today = new Date().toISOString().slice(0, 10)
 
     const { data: existing } = await supabase
@@ -26,7 +26,7 @@ export const conversationService = {
     if (existing) {
       const { data, error } = await supabase
         .from('conversations')
-        .update({ updated_at: new Date().toISOString() })
+        .update({ updated_at: new Date().toISOString(), ...updates })
         .eq('id', existing.id)
         .select()
         .single()
@@ -36,7 +36,7 @@ export const conversationService = {
 
     const { data, error } = await supabase
       .from('conversations')
-      .insert({ customer_id: customerId, user_id: userId, talked_at: today })
+      .insert({ customer_id: customerId, user_id: userId, talked_at: today, ...updates })
       .select()
       .single()
     if (error) throw error

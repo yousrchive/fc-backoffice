@@ -10,11 +10,12 @@ export const calendarService = {
     const [{ data: convs }, { data: alerts }] = await Promise.all([
       supabase
         .from('conversations')
-        .select('talked_at, talk_count, customers!inner(id, name, emoji, consultations(current_stage))')
+        .select('talked_at, talk_count, updated_at, customers!inner(id, name, emoji, consultations(current_stage))')
         .eq('customers.user_id', userId)
         .gte('talked_at', start)
         .lt('talked_at', end)
-        .order('talked_at'),
+        .order('talked_at')
+        .order('updated_at', { ascending: false }),
       supabase
         .from('customer_alerts')
         .select('id, content, alert_at, is_done, stage, customers(name, emoji)')
@@ -26,10 +27,28 @@ export const calendarService = {
 
     const byDate = {}
 
+    // 날짜별로 고객 dedup: 같은 날 같은 고객은 가장 최근 updated_at만 유지
+    const dateCustomerMap = {}
     convs?.forEach(conv => {
+      const date = conv.talked_at
+      const customerId = conv.customers?.id
+      if (!customerId) return
+      const key = `${date}__${customerId}`
+      const existing = dateCustomerMap[key]
+      if (!existing || new Date(conv.updated_at) > new Date(existing.updated_at)) {
+        dateCustomerMap[key] = conv
+      }
+    })
+
+    Object.values(dateCustomerMap).forEach(conv => {
       const date = conv.talked_at
       if (!byDate[date]) byDate[date] = { conversations: [], alerts: [] }
       byDate[date].conversations.push(conv)
+    })
+
+    // 각 날짜 내에서 updated_at 최신순 정렬
+    Object.values(byDate).forEach(day => {
+      day.conversations.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
     })
 
     alerts?.forEach(alert => {

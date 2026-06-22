@@ -4,7 +4,8 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import '../../styles/Layout.css'
 
 const NAV_ITEMS = [
-  { label: '고객', path: '/customers' },
+  { label: 'HOME', path: '/customers' },
+  { label: '고객', path: '/customer-list' },
   { label: '캘린더', path: '/calendar' },
   { label: '발화모음', path: '/templates' },
   { label: '대시보드', path: '/dashboard' },

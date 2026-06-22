@@ -41,15 +41,17 @@ export default function CustomerDetail() {
   }, [id])
 
   const fetchTalkCount = useCallback(async () => {
+    if (!user?.id) return
     const today = new Date().toISOString().slice(0, 10)
     const { data } = await supabase
       .from('conversations')
       .select('talk_count')
       .eq('customer_id', id)
+      .eq('user_id', user.id)
       .eq('talked_at', today)
       .maybeSingle()
     if (data) setTalkCount(data.talk_count ?? 0)
-  }, [id])
+  }, [id, user?.id])
 
   useEffect(() => {
     fetchCustomer()
@@ -59,11 +61,7 @@ export default function CustomerDetail() {
   const handleTalkCount = async (delta) => {
     const next = Math.max(0, talkCount + delta)
     setTalkCount(next)
-    const conv = await conversationService.upsertToday(id, user.id)
-    await supabase
-      .from('conversations')
-      .update({ talk_count: next })
-      .eq('id', conv.id)
+    await conversationService.upsertToday(id, user.id, { talk_count: next })
   }
 
   const handleStageClick = async (stage) => {

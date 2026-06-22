@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext'
 import Layout from './components/layout/Layout'
 import Login from './pages/Login'
 import Customers from './pages/Customers'
+import CustomerList from './pages/CustomerList'
 import Calendar from './pages/Calendar'
 import Templates from './pages/Templates'
 import Dashboard from './pages/Dashboard'
@@ -10,6 +11,7 @@ import withAuth from './hoc/withAuth'
 import CustomerDetail from './pages/CustomerDetail'
 
 const ProtectedCustomers = withAuth(Customers)
+const ProtectedCustomerList = withAuth(CustomerList)
 const ProtectedCalendar = withAuth(Calendar)
 const ProtectedTemplates = withAuth(Templates)
 const ProtectedDashboard = withAuth(Dashboard)
@@ -29,6 +31,7 @@ function AppContent() {
       <Route path="/login" element={user ? <Navigate to="/customers" /> : <Login />} />
       <Route path="/" element={<Navigate to="/customers" />} />
       <Route path="/customers" element={<Layout><ProtectedCustomers /></Layout>} />
+      <Route path="/customer-list" element={<Layout><ProtectedCustomerList /></Layout>} />
       <Route path="/calendar" element={<Layout><ProtectedCalendar /></Layout>} />
       <Route path="/templates" element={<Layout><ProtectedTemplates /></Layout>} />
       <Route path="/dashboard" element={<Layout><ProtectedDashboard /></Layout>} />
