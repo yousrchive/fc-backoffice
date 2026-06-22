@@ -80,9 +80,9 @@ export function useDashboard() {
     setReview(data)
   }
 
-  const getFunnelByPeriod = useCallback(async (startDate, endDate) => {
+  const getFunnelByPeriod = async (startDate, endDate) => {
     return await dashboardService.getFunnelStatsByPeriod(user.id, startDate, endDate, stages)
-  }, [user, stages])
+  }
 
   return {
     today,

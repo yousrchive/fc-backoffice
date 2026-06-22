@@ -15,6 +15,7 @@ const CONTRACT_CHECKS = [
 ]
 
 export default function SubscriptionSection({ consultationId }) {
+  const [meta, setMeta] = useState(null)
   const [customerChecks, setCustomerChecks] = useState({})
   const [contractChecks, setContractChecks] = useState({})
   const [finalProduct, setFinalProduct] = useState('')
@@ -26,6 +27,7 @@ export default function SubscriptionSection({ consultationId }) {
     if (!consultationId) return
     subscriptionService.getByConsultation(consultationId).then(data => {
       if (data) {
+        setMeta(data)
         setCustomerChecks(data.customer_checks ?? {})
         setContractChecks(data.contract_checks ?? {})
         setFinalProduct(data.final_product ?? '')
@@ -49,6 +51,7 @@ export default function SubscriptionSection({ consultationId }) {
         final_product: finalProduct,
         final_premium: finalPremium ? Number(finalPremium) : null,
       })
+      if (data) setMeta(data)
       setSaved(true)
       setTimeout(() => setSaved(false), 2000)
     } catch (err) {
