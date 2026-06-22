@@ -14,12 +14,11 @@ const STAGE_CLASS = {
 
 function getFurthestStage(consultations) {
   if (!consultations?.length) return '니즈환기'
-  let maxIdx = -1
-  consultations.forEach(c => {
-    const idx = STAGE_ORDER.indexOf(c.current_stage)
-    if (idx > maxIdx) maxIdx = idx
-  })
-  return maxIdx >= 0 ? STAGE_ORDER[maxIdx] : '니즈환기'
+  const maxIdx = consultations.reduce((max, c) => {
+    const idx = STAGE_ORDER.indexOf(c.current_stage ?? '')
+    return idx > max ? idx : max
+  }, 0)
+  return STAGE_ORDER[maxIdx]
 }
 
 function getLatestContact(conversations) {
@@ -64,7 +63,7 @@ export default function CustomerList() {
       return [...list].sort((a, b) => {
         const ia = STAGE_ORDER.indexOf(getFurthestStage(a.consultations))
         const ib = STAGE_ORDER.indexOf(getFurthestStage(b.consultations))
-        return ib - ia
+        return ia - ib
       })
     }
     return list
