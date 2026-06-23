@@ -2,28 +2,24 @@ import { useState, useEffect, useCallback } from 'react'
 import { underwritingService } from '../../services/underwritingService'
 import '../../styles/UnderwritingSection.css'
 
-const RESULTS = ['인수', '부담보', '거절']
+const COLUMNS = [
+  { key: 'condition_uw', label: '병력명(UW)', width: 120 },
+  { key: 'condition_insurer', label: '병력명(보험사)', width: 120 },
+  { key: 'insurer', label: '보험회사', width: 80 },
+  { key: 'product', label: '상품명', width: 100 },
+  { key: 'result', label: '심사결과', width: 130 },
+  { key: 'exclusion', label: '부담보 내용', width: 140 },
+  { key: 'surcharge', label: '할증 내용', width: 100 },
+  { key: 'disclosure', label: '고지내용', width: 160 },
+  { key: 'cancer_coverage', label: '암 관련 가입 담보', width: 150 },
+  { key: 'cerebro_coverage', label: '뇌혈관 관련 가입 담보', width: 160 },
+  { key: 'cardio_coverage', label: '심혈관 관련 가입담보', width: 150 },
+  { key: 'disability_coverage', label: '후유장해 관련 가입담보', width: 160 },
+  { key: 'surgery_coverage', label: '수술관련 가입 보장', width: 130 },
+  { key: 'design_date', label: '설계년월', width: 110 },
+]
 
-const RESULT_CLASS = {
-  '인수': 'uw-chip-accept',
-  '부담보': 'uw-chip-partial',
-  '거절': 'uw-chip-reject',
-}
-
-const defaultForm = () => ({
-  result: '인수',
-  insurer: '',
-  product: '',
-  condition: '',
-  premium: '',
-  memo: '',
-})
-
-function conditionLabel(result) {
-  if (result === '부담보') return '부담보 조건'
-  if (result === '거절') return '거절 사유'
-  return null
-}
+const defaultForm = () => Object.fromEntries(COLUMNS.map(c => [c.key, '']))
 
 export default function UnderwritingSection({ customerId }) {
   const [records, setRecords] = useState([])
@@ -48,14 +44,7 @@ export default function UnderwritingSection({ customerId }) {
 
   const openEdit = (record) => {
     setEditingId(record.id)
-    setForm({
-      result: record.result,
-      insurer: record.insurer ?? '',
-      product: record.product ?? '',
-      condition: record.condition ?? '',
-      premium: record.premium != null ? String(record.premium) : '',
-      memo: record.memo ?? '',
-    })
+    setForm(Object.fromEntries(COLUMNS.map(c => [c.key, record[c.key] ?? ''])))
     setShowForm(true)
   }
 
@@ -68,14 +57,9 @@ export default function UnderwritingSection({ customerId }) {
   const handleSave = async () => {
     setSaving(true)
     try {
-      const payload = {
-        result: form.result,
-        insurer: form.insurer || null,
-        product: form.product || null,
-        condition: form.condition || null,
-        premium: form.premium ? Number(form.premium) : null,
-        memo: form.memo || null,
-      }
+      const payload = Object.fromEntries(
+        COLUMNS.map(c => [c.key, form[c.key] || null])
+      )
       if (editingId) {
         const updated = await underwritingService.update(editingId, payload)
         setRecords(prev => prev.map(r => r.id === editingId ? updated : r))
@@ -102,7 +86,7 @@ export default function UnderwritingSection({ customerId }) {
       <div className="uw-header">
         <div>
           <h2 className="uw-title">언더라이팅</h2>
-          <p className="uw-sub">인수 · 부담보 · 거절 이력</p>
+          <p className="uw-sub">병력별 심사 결과 및 가입 담보 현황</p>
         </div>
         <button className="add-btn" onClick={openNew}>+ 추가</button>
       </div>
@@ -110,28 +94,27 @@ export default function UnderwritingSection({ customerId }) {
       {records.length === 0 ? (
         <p className="uw-empty">언더라이팅 기록이 없어요</p>
       ) : (
-        <div className="uw-list">
-          {records.map(record => (
-            <div key={record.id} className="uw-card" onClick={() => openEdit(record)}>
-              <div className="uw-card-top">
-                <span className={`uw-chip ${RESULT_CLASS[record.result]}`}>{record.result}</span>
-                <span className="uw-insurer">{record.insurer ?? '—'}</span>
-                {record.premium != null && (
-                  <span className="uw-premium">{Number(record.premium).toLocaleString()}원/월</span>
-                )}
-              </div>
-              {record.product && <p className="uw-product">{record.product}</p>}
-              {record.condition && (
-                <p className="uw-condition">
-                  <span className="uw-condition-label">
-                    {record.result === '부담보' ? '부담보 조건' : '거절 사유'}
-                  </span>
-                  {record.condition}
-                </p>
-              )}
-              {record.memo && <p className="uw-memo">{record.memo}</p>}
-            </div>
-          ))}
+        <div className="uw-table-scroll">
+          <table className="uw-table">
+            <thead>
+              <tr>
+                {COLUMNS.map(col => (
+                  <th key={col.key} style={{ minWidth: col.width }}>{col.label}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {records.map(record => (
+                <tr key={record.id} className="uw-row" onClick={() => openEdit(record)}>
+                  {COLUMNS.map(col => (
+                    <td key={col.key} title={record[col.key] ?? ''}>
+                      <span className="uw-cell-text">{record[col.key] || '—'}</span>
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 
@@ -143,92 +126,23 @@ export default function UnderwritingSection({ customerId }) {
               <p className="form-drawer-title">{editingId ? '언더라이팅 수정' : '언더라이팅 추가'}</p>
               <button className="form-drawer-close" onClick={handleClose}>✕</button>
             </div>
-
             <div className="form-drawer-body">
-              <div className="form-field">
-                <label className="form-label">결과</label>
-                <div className="uw-result-chips">
-                  {RESULTS.map(r => (
-                    <button
-                      key={r}
-                      className={`uw-chip ${RESULT_CLASS[r]} ${form.result === r ? 'uw-chip-selected' : 'uw-chip-unselected'}`}
-                      onClick={() => setForm({ ...form, result: r, condition: '' })}
-                    >
-                      {r}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="form-row">
-                <div className="form-field">
-                  <label className="form-label">보험사</label>
-                  <input
-                    className="form-input"
-                    placeholder="예: 현대해상"
-                    value={form.insurer}
-                    onChange={e => setForm({ ...form, insurer: e.target.value })}
-                  />
-                </div>
-                <div className="form-field">
-                  <label className="form-label">상품명</label>
-                  <input
-                    className="form-input"
-                    placeholder="예: 무배당 실손"
-                    value={form.product}
-                    onChange={e => setForm({ ...form, product: e.target.value })}
-                  />
-                </div>
-              </div>
-
-              {conditionLabel(form.result) && (
-                <div className="form-field">
-                  <label className="form-label">{conditionLabel(form.result)}</label>
+              {COLUMNS.map(col => (
+                <div key={col.key} className="form-field">
+                  <label className="form-label">{col.label}</label>
                   <textarea
                     className="form-input"
-                    placeholder={
-                      form.result === '부담보'
-                        ? '예: 좌측 무릎 5년 부담보'
-                        : '예: 고혈압 이력으로 인한 거절'
-                    }
-                    value={form.condition}
-                    onChange={e => setForm({ ...form, condition: e.target.value })}
+                    value={form[col.key]}
+                    onChange={e => setForm({ ...form, [col.key]: e.target.value })}
                     rows={2}
                     style={{ resize: 'none' }}
                   />
                 </div>
-              )}
-
-              {form.result !== '거절' && (
-                <div className="form-field">
-                  <label className="form-label">보험료 (원/월)</label>
-                  <input
-                    className="form-input"
-                    placeholder="예: 120000"
-                    value={form.premium}
-                    onChange={e => setForm({ ...form, premium: e.target.value.replace(/[^0-9]/g, '') })}
-                  />
-                </div>
-              )}
-
-              <div className="form-field">
-                <label className="form-label">메모</label>
-                <textarea
-                  className="form-input"
-                  placeholder="추가로 기억할 내용"
-                  value={form.memo}
-                  onChange={e => setForm({ ...form, memo: e.target.value })}
-                  rows={3}
-                  style={{ resize: 'none' }}
-                />
-              </div>
+              ))}
             </div>
-
             <div className="form-drawer-footer">
               {editingId && (
-                <button className="form-btn-cancel" onClick={() => handleDelete(editingId)}>
-                  삭제
-                </button>
+                <button className="form-btn-cancel" onClick={() => handleDelete(editingId)}>삭제</button>
               )}
               <button className="form-btn-cancel" onClick={handleClose}>취소</button>
               <button className="form-btn-submit" onClick={handleSave} disabled={saving}>
