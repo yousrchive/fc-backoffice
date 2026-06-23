@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# FC Backoffice
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+뱅크샐러드금융서비스 재무설계사를 위한 **KPT 기록 및 고객관리 차팅 서비스**입니다.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 주요 기능
 
-### `npm start`
+### HOME
+- 오늘 상담한 고객 대화 로그 (날짜별 그룹, 최신 수정순)
+- 고객 추가 폼 (이름, 방코드, 전화번호, 생년월일, 대화 시작일)
+- 고객 슬라이더 (빠른 이동)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 고객 목록
+- 전체 고객 리스트 (가나다순 / 최신연락순 / 단계순 정렬)
+- 이름·방코드 검색
+- 각 고객별 현재 진행 단계 칩 표시 (니즈환기 → 문제인식 → 솔루션 → 청약 → 후속관리)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 고객 상세
+- 단계별 상담 차팅 섹션 (니즈환기 / 문제인식 / 솔루션 / 청약 / 후속관리)
+- 오늘 대화 횟수(티키타카) 기록
+- 설계 동의 여부 체크
+- 알림 설정 (날짜·단계 지정)
+- KPT 기록 (고객별 Keep / Problem / Try 메모)
 
-### `npm test`
+### 캘린더
+- 월별 상담 고객 현황 (날짜 셀에 고객명·단계 표시)
+- 알림 일정 표시
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 대시보드
+- 오늘 목표 / 스크럼 작성
+- 오늘 현황 (신규·기존·총 상담, 설계 동의)
+- 일별 성과 리뷰 (Keep / Stop / Try)
+- 이번 주 일별 상담 현황 바 차트
+- 퍼널 전환율 분석 (주간 비교 / 직접 기간 설정)
+- 전체 고객 퍼널 현황
+- KPT 회고 뷰
+- 템플릿 반응률 TOP 5
 
-### `npm run build`
+### 발화모음 (템플릿)
+- 단계별 발화 템플릿 관리
+- 템플릿 사용 횟수 및 고객 반응률 기록
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 기술 스택
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| 영역 | 기술 |
+|------|------|
+| Frontend | React 19, React Router v7 |
+| Backend / DB | Supabase (PostgreSQL + Auth + RLS) |
+| 배포 | Vercel |
+| 스타일 | CSS Variables, Pretendard |
+| 데스크탑 | Electron (선택) |
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 로컬 실행
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm install
+npm start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+`.env` 파일에 Supabase 환경변수 필요:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+REACT_APP_SUPABASE_URL=...
+REACT_APP_SUPABASE_ANON_KEY=...
+```
 
-## Learn More
+## 배포
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+vercel --prod
+```
