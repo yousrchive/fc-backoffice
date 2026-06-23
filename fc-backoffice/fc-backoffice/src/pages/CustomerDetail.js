@@ -12,6 +12,7 @@ import CrmSection from '../components/customer/CrmSection'
 import AlertModal from '../components/customer/AlertModal'
 import KptSection from '../components/customer/KptSection'
 import TemplateTracker from '../components/customer/TemplateTracker'
+import UnderwritingSection from '../components/customer/UnderwritingSection'
 import '../styles/CustomerDetail.css'
 
 const STAGES = ['니즈환기', '문제인식', '솔루션', '청약', '후속관리']
@@ -208,6 +209,8 @@ export default function CustomerDetail() {
             </div>
           ))}
       </div>
+
+      <UnderwritingSection customerId={id} />
 
       {toast && (
         <div className="toast">
