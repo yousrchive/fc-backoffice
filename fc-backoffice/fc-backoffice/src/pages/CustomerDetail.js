@@ -11,6 +11,7 @@ import SubscriptionSection from '../components/customer/SubscriptionSection'
 import CrmSection from '../components/customer/CrmSection'
 import AlertModal from '../components/customer/AlertModal'
 import KptSection from '../components/customer/KptSection'
+import TemplateTracker from '../components/customer/TemplateTracker'
 import '../styles/CustomerDetail.css'
 
 const STAGES = ['니즈환기', '문제인식', '솔루션', '청약', '후속관리']
@@ -198,6 +199,11 @@ export default function CustomerDetail() {
                 {stage === '후속관리' && (
                   <CrmSection consultationId={consultation?.id} />
                 )}
+                <TemplateTracker
+                  consultationId={consultation?.id}
+                  customerId={id}
+                  stage={stage}
+                />
               </div>
             </div>
           ))}

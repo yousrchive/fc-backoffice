@@ -153,5 +153,77 @@ async getByStage(userId, stage) {
     await supabase.rpc('increment_use_count', { template_id: templateId })
 
     return data
+  },
+
+  // 특정 상담+단계에서 사용한 템플릿 목록 (반응 포함)
+  async getUsedByConsultationStage(consultationId, stage) {
+    const { data, error } = await supabase
+      .from('customer_templates')
+      .select('id, template_id, templates(id, title, content, context)')
+      .eq('consultation_id', consultationId)
+      .eq('stage', stage)
+    if (error) throw error
+    if (!data?.length) return []
+
+    const templateIds = data.map(d => d.template_id)
+    const { data: reactions } = await supabase
+      .from('template_reactions')
+      .select('template_id, reacted')
+      .eq('consultation_id', consultationId)
+      .eq('stage', stage)
+      .in('template_id', templateIds)
+
+    return data.map(item => ({
+      ...item,
+      reacted: reactions?.find(r => r.template_id === item.template_id)?.reacted ?? null
+    }))
+  },
+
+  // 고객 상담에 템플릿 추가
+  async addToCustomer(customerId, templateId, consultationId, stage) {
+    const { data: existing } = await supabase
+      .from('customer_templates')
+      .select('id')
+      .eq('customer_id', customerId)
+      .eq('template_id', templateId)
+      .eq('consultation_id', consultationId)
+      .eq('stage', stage)
+      .maybeSingle()
+
+    if (existing) return existing
+
+    const { data, error } = await supabase
+      .from('customer_templates')
+      .insert({ customer_id: customerId, template_id: templateId, consultation_id: consultationId, stage })
+      .select('id, template_id, templates(id, title, content, context)')
+      .single()
+    if (error) throw error
+
+    await supabase.rpc('increment_use_count', { template_id: templateId })
+
+    return { ...data, reacted: null }
+  },
+
+  // 반응 upsert (null = 기록 삭제)
+  async upsertReaction(templateId, consultationId, stage, reacted) {
+    const { data: existing } = await supabase
+      .from('template_reactions')
+      .select('id')
+      .eq('template_id', templateId)
+      .eq('consultation_id', consultationId)
+      .eq('stage', stage)
+      .maybeSingle()
+
+    if (existing) {
+      if (reacted === null) {
+        await supabase.from('template_reactions').delete().eq('id', existing.id)
+      } else {
+        await supabase.from('template_reactions').update({ reacted }).eq('id', existing.id)
+      }
+    } else if (reacted !== null) {
+      await supabase.from('template_reactions').insert({
+        template_id: templateId, consultation_id: consultationId, stage, reacted
+      })
+    }
   }
 }
