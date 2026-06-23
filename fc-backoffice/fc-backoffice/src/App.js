@@ -9,6 +9,7 @@ import Templates from './pages/Templates'
 import Dashboard from './pages/Dashboard'
 import withAuth from './hoc/withAuth'
 import CustomerDetail from './pages/CustomerDetail'
+import Underwriting from './pages/Underwriting'
 
 const ProtectedCustomers = withAuth(Customers)
 const ProtectedCustomerList = withAuth(CustomerList)
@@ -16,6 +17,7 @@ const ProtectedCalendar = withAuth(Calendar)
 const ProtectedTemplates = withAuth(Templates)
 const ProtectedDashboard = withAuth(Dashboard)
 const ProtectedCustomerDetail = withAuth(CustomerDetail)
+const ProtectedUnderwriting = withAuth(Underwriting)
 
 function AppContent() {
   const { user, loading } = useAuth()
@@ -35,6 +37,7 @@ function AppContent() {
       <Route path="/calendar" element={<Layout><ProtectedCalendar /></Layout>} />
       <Route path="/templates" element={<Layout><ProtectedTemplates /></Layout>} />
       <Route path="/dashboard" element={<Layout><ProtectedDashboard /></Layout>} />
+      <Route path="/underwriting" element={<Layout><ProtectedUnderwriting /></Layout>} />
       <Route path="/customers/:id" element={<Layout><ProtectedCustomerDetail /></Layout>} />
     </Routes>
   )

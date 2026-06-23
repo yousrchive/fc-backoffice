@@ -32,6 +32,15 @@ export const underwritingService = {
     return data
   },
 
+  async getAll() {
+    const { data, error } = await supabase
+      .from('underwritings')
+      .select('*, customers(id, name, emoji)')
+      .order('created_at', { ascending: false })
+    if (error) throw error
+    return data ?? []
+  },
+
   async delete(id) {
     const { error } = await supabase
       .from('underwritings')

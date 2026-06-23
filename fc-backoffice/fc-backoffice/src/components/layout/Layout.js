@@ -6,6 +6,7 @@ import '../../styles/Layout.css'
 const NAV_ITEMS = [
   { label: 'HOME', path: '/customers' },
   { label: '고객', path: '/customer-list' },
+  { label: '언더라이팅', path: '/underwriting' },
   { label: '캘린더', path: '/calendar' },
   { label: '발화모음', path: '/templates' },
   { label: '대시보드', path: '/dashboard' },
