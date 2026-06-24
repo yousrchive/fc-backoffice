@@ -2,15 +2,15 @@
 
 :root {
   /* 배경 */
-  --bg-base: #F7F7F7;
+  --bg-base: #F4F5F8;
   --bg-surface: #FFFFFF;
-  --bg-elevated: #ECEEF2;
-  --bg-border: #D8DBE4;
+  --bg-elevated: #EAEBF1;
+  --bg-border: #E0E2EC;
 
   /* 텍스트 */
-  --text-primary: #4C4C4C;
-  --text-secondary: #707880;
-  --text-hint: #A0A8B4;
+  --text-primary: #363840;
+  --text-secondary: #666979;
+  --text-hint: #9A9DAF;
 
   /* 포인트 */
   --primary: #09A96B;
