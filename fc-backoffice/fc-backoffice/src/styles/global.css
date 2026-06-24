@@ -2,10 +2,10 @@
 
 :root {
   /* 배경 */
-  --bg-base: #F4F5F8;
+  --bg-base: #F8F9FB;
   --bg-surface: #FFFFFF;
-  --bg-elevated: #EAEBF1;
-  --bg-border: #E0E2EC;
+  --bg-elevated: #F0F1F6;
+  --bg-border: #E8EAEF;
 
   /* 텍스트 */
   --text-primary: #363840;
