@@ -2,40 +2,40 @@
 
 :root {
   /* 배경 */
-  --bg-base: #29292F;
-  --bg-surface: #2B2B35;
-  --bg-elevated: #2B2B35;
-  --bg-border: #2B2B35;
+  --bg-base: #F7F7F7;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #ECEEF2;
+  --bg-border: #D8DBE4;
 
   /* 텍스트 */
-  --text-primary: #F0F2F5;
-  --text-secondary: #A0A8B4;
-  --text-hint: #606878;
+  --text-primary: #4C4C4C;
+  --text-secondary: #707880;
+  --text-hint: #A0A8B4;
 
   /* 포인트 */
-  --primary: #00D277;
-  --primary-surface: #003535;
-  --primary-border: #006666;
+  --primary: #09A96B;
+  --primary-surface: #E6F7EF;
+  --primary-border: #7FD4AE;
 
-  --green: #00D1CE;
-  --green-surface: #003520;
-  --green-border: #006640;
+  --green: #09A96B;
+  --green-surface: #E6F7EF;
+  --green-border: #7FD4AE;
 
-  --blue: #0097FE;
-  --blue-surface: #002A48;
-  --blue-border: #004A80;
+  --blue: #2563EB;
+  --blue-surface: #EFF6FF;
+  --blue-border: #93C5FD;
 
-  --pink: #FF79C8;
-  --pink-surface: #3D1030;
-  --pink-border: #7A2060;
+  --pink: #DB2777;
+  --pink-surface: #FDF2F8;
+  --pink-border: #F9A8D4;
 
   /* 상태 */
-  --status-ok: #00D1CE;
-  --status-ok-bg: #003535;
-  --status-warn: #FFB347;
-  --status-warn-bg: #3A2800;
-  --status-danger: #FF6B6B;
-  --status-danger-bg: #3A1010;
+  --status-ok: #09A96B;
+  --status-ok-bg: #E6F7EF;
+  --status-warn: #D97706;
+  --status-warn-bg: #FEF3C7;
+  --status-danger: #DC2626;
+  --status-danger-bg: #FEE2E2;
 
   /* 타이포 */
   --font: 'Pretendard', sans-serif;

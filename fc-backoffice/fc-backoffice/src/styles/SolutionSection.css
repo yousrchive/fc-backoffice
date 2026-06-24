@@ -234,7 +234,7 @@
 .status-인수 { background: var(--bg-elevated); color: var(--text-hint); }
 .status-인수.status-on { background: var(--green-surface); color: var(--green); }
 .status-부담보 { background: var(--bg-elevated); color: var(--text-hint); }
-.status-부담보.status-on { background: #2A2210; color: #C9A040; }
+.status-부담보.status-on { background: var(--status-warn-bg); color: var(--status-warn); }
 .status-거절 { background: var(--bg-elevated); color: var(--text-hint); }
 .status-거절.status-on { background: var(--status-danger-bg); color: var(--status-danger); }
 
@@ -519,9 +519,9 @@
 }
 
 .reply-chip-무응답.reply-chip-on {
-  background: #2A2210;
-  border-color: #66501A;
-  color: #C9A040;
+  background: var(--status-warn-bg);
+  border-color: var(--status-warn);
+  color: var(--status-warn);
 }
 
 .reply-sub {

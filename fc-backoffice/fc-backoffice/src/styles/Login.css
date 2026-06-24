@@ -56,7 +56,7 @@
 
 .login-btn {
   background: var(--primary);
-  color: #003535;
+  color: #FFFFFF;
   border: none;
   border-radius: var(--radius-sm);
   padding: 13px;
@@ -68,7 +68,7 @@
 }
 
 .login-btn:hover {
-  background: #00B8B5;
+  background: #077A4E;
 }
 
 .login-btn:disabled {

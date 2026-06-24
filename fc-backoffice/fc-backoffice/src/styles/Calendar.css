@@ -81,8 +81,8 @@
   background: var(--bg-surface);
 }
 
-.cal-dow-sun { color: #FF6B6B; }
-.cal-dow-sat { color: #0097FE; }
+.cal-dow-sun { color: var(--status-danger); }
+.cal-dow-sat { color: var(--blue); }
 
 /* 셀 */
 .cal-cell {
@@ -125,8 +125,8 @@
   color: var(--primary);
 }
 
-.cal-sun { color: #FF6B6B; }
-.cal-sat { color: #0097FE; }
+.cal-sun { color: var(--status-danger); }
+.cal-sat { color: var(--blue); }
 
 /* 항목들 */
 .cal-entries {
@@ -171,7 +171,7 @@
 }
 
 .cal-stage-needs     { background: var(--blue-surface);   color: var(--blue);          }
-.cal-stage-problems  { background: #2A2210;               color: #C9A040;              }
+.cal-stage-problems  { background: var(--status-warn-bg);  color: var(--status-warn);   }
 .cal-stage-solution  { background: var(--primary-surface); color: var(--primary);       }
 .cal-stage-subscription { background: var(--pink-surface); color: var(--pink);         }
 .cal-stage-crm       { background: var(--green-surface);  color: var(--green);         }
